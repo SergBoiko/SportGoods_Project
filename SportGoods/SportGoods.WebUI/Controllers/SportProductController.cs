@@ -17,7 +17,7 @@ namespace SportGoods.WebUI.Controllers
 
         public ViewResult List()
         {
-            return View(repository.SportProducts);
+            return View(repository.Products);
         }
     }
 }

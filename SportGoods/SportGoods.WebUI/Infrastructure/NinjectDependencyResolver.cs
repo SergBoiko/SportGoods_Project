@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Moq;
 using Ninject;
 using SportGoods.Domain.Abstract;
+using SportGoods.Domain.Concrete;
 using SportGoods.Domain.Entities;
 
 namespace SportGoods.WebUI.Infrastructure
@@ -31,14 +32,7 @@ namespace SportGoods.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            Mock<ISportProductRepository> mock = new Mock<ISportProductRepository>();
-            mock.Setup(m => m.SportProducts).Returns(new List<SportProduct>
-            {
-                new SportProduct { Name = "Basketball", Price = 2399},
-                new SportProduct { Name = "Knee Pads", Price = 899},
-                new SportProduct { Name = "Thermo Sleeve", Price = 999}
-            });
-            kernel.Bind<ISportProductRepository>().ToConstant(mock.Object);
+            kernel.Bind<ISportProductRepository>().To<EFProductRepository>();
         }
     }
 }

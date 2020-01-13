@@ -6,6 +6,6 @@ namespace SportGoods.Domain.Abstract
 {
     public interface ISportProductRepository
     {
-        IEnumerable<SportProduct> SportProducts { get; }
+        IEnumerable<SportProduct> Products { get; }
     }
 }
