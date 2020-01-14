@@ -139,7 +139,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\PagingHelper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -167,16 +169,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SportGoods.Domain\SportGoods.Domain.csproj">
       <Project>{fd777bfb-728c-4443-9ff6-caa2972c1953}</Project>
       <Name>SportGoods.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SportGoods.UnitTests\SportGoods.UnitTests.csproj">
-      <Project>{8c170335-1fbf-4915-8a38-91315e7864e0}</Project>
-      <Name>SportGoods.UnitTests</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
