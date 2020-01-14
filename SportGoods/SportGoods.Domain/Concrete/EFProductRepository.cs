@@ -12,7 +12,7 @@ namespace SportGoods.Domain.Concrete
     {
         EFDbContext context = new EFDbContext();
 
-        public IEnumerable<SportProduct> Products
+        public IEnumerable<Product> Products
         {
             get { return context.Products; }
         }

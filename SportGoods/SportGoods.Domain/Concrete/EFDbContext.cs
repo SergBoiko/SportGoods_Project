@@ -10,6 +10,6 @@ namespace SportGoods.Domain.Concrete
 {
     public class EFDbContext : DbContext
     {
-        public DbSet<SportProduct> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
