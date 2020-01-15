@@ -1,4 +1,5 @@
 ﻿using SportGoods.Domain.Abstract;
+using SportGoods.WebUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,21 @@ namespace SportGoods.WebUI.Controllers
 
         public ViewResult List(int page = 1)
         {
-            return View(repository.Products
-                .OrderBy(product => product.Id)
-                .Skip((page - 1)*pageSize)
-                .Take(pageSize));
+            ProductsListViewModel model = new ProductsListViewModel
+            {
+                Products = repository.Products
+                    .OrderBy(product => product.Id)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = repository.Products.Count()
+                }
+            };
+            return View(model);
         }
     }
 }
+

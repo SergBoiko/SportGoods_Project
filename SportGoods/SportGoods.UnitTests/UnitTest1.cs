@@ -33,10 +33,10 @@ namespace SportGoods.UnitTests
             controller.pageSize = 3;
 
             // Действие (act)
-            IEnumerable<Product> result = (IEnumerable<Product>)controller.List(2).Model;
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
 
             // Утверждение (assert)
-            List<Product> products = result.ToList();
+            List<Product> products = result.Products.ToList();
             Assert.IsTrue(products.Count == 2);
             Assert.AreEqual(products[0].Name, "Product4");
             Assert.AreEqual(products[1].Name, "Product5");
@@ -69,6 +69,36 @@ namespace SportGoods.UnitTests
                 + @"<a class=""btn btn-default btn-primary selected"" href=""Page2"">2</a>"
                 + @"<a class=""btn btn-default"" href=""Page3"">3</a>",
                 result.ToString());
+        }
+
+
+        [TestMethod]
+        public void Can_Send_Pagination_View_Model()
+        {
+            // Организация (arrange)
+            Mock<ISportProductRepository> mock = new Mock<ISportProductRepository>();
+            mock.Setup(m => m.Products).Returns(new List<Product>
+            {
+                new Product { Id = 1, Name = "Product1"},
+                new Product { Id = 2, Name = "Product2"},
+                new Product { Id = 3, Name = "Product3"},
+                new Product { Id = 4, Name = "Product4"},
+                new Product { Id = 5, Name = "Product5"}
+            });
+
+            SportProductController controller = new SportProductController(mock.Object);
+            controller.pageSize = 3;
+
+            // Act
+            ProductsListViewModel result
+                = (ProductsListViewModel)controller.List(2).Model;
+
+            // Assert
+            PagingInfo pageInfo = result.PagingInfo;
+            Assert.AreEqual(pageInfo.CurrentPage, 2);
+            Assert.AreEqual(pageInfo.ItemsPerPage, 3);
+            Assert.AreEqual(pageInfo.TotalItems, 5);
+            Assert.AreEqual(pageInfo.TotalPages, 2);
         }
     }
 }
