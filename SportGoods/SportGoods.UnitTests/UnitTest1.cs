@@ -33,7 +33,7 @@ namespace SportGoods.UnitTests
             controller.pageSize = 3;
 
             // Действие (act)
-            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(null, 2).Model;
 
             // Утверждение (assert)
             List<Product> products = result.Products.ToList();
@@ -90,8 +90,7 @@ namespace SportGoods.UnitTests
             controller.pageSize = 3;
 
             // Act
-            ProductsListViewModel result
-                = (ProductsListViewModel)controller.List(2).Model;
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(null, 2).Model;
 
             // Assert
             PagingInfo pageInfo = result.PagingInfo;
@@ -99,6 +98,33 @@ namespace SportGoods.UnitTests
             Assert.AreEqual(pageInfo.ItemsPerPage, 3);
             Assert.AreEqual(pageInfo.TotalItems, 5);
             Assert.AreEqual(pageInfo.TotalPages, 2);
+        }
+
+        [TestMethod]
+        public void Can_Filter_Games()
+        {
+            // Организация (arrange)
+            Mock<ISportProductRepository> mock = new Mock<ISportProductRepository>();
+            mock.Setup(m => m.Products).Returns(new List<Product>
+            {
+                new Product { Id = 1, Name = "Product1", Category="Cat1"},
+                new Product { Id = 2, Name = "Product2", Category="Cat2"},
+                new Product { Id = 3, Name = "Product3", Category="Cat1"},
+                new Product { Id = 4, Name = "Product4", Category="Cat2"},
+                new Product { Id = 5, Name = "Product5", Category="Cat3"}
+            });
+
+            SportProductController controller = new SportProductController(mock.Object);
+            controller.pageSize = 3;
+
+            // Action
+            List<Product> result = ((ProductsListViewModel)controller.List("Cat2", 1).Model)
+                .Products.ToList();
+
+            // Assert
+            Assert.AreEqual(result.Count(), 2);
+            Assert.IsTrue(result[0].Name == "Product2" && result[0].Category == "Cat2");
+            Assert.IsTrue(result[1].Name == "Product4" && result[1].Category == "Cat2");
         }
     }
 }

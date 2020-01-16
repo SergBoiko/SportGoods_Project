@@ -12,6 +12,12 @@ namespace SportGoods.WebUI
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            
+            routes.MapRoute(
+                name: null,
+                url: "Page{page}",
+                defaults: new { controller = "SportProduct", action = "List" }
+            );
 
             routes.MapRoute(
                 name: "Default",
