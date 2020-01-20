@@ -152,5 +152,59 @@ namespace SportGoods.UnitTests
             Assert.AreEqual(results[1], "Apparel");
             Assert.AreEqual(results[2], "Footwear");
         }
+
+        [TestMethod]
+        public void Indicates_Selected_Category()
+        {
+            // Организация - создание имитированного хранилища
+            Mock<ISportProductRepository> mock = new Mock<ISportProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[] {
+        new Product { Id = 1, Name = "Product1", Category="Accessories"},
+        new Product { Id = 2, Name = "Product2", Category="Apparel"}
+    });
+
+            // Организация - создание контроллера
+            NavController target = new NavController(mock.Object);
+
+            // Организация - определение выбранной категории
+            string categoryToSelect = "Apparel";
+
+            // Действие
+            string result = target.Menu(categoryToSelect).ViewBag.SelectedCategory;
+
+            // Утверждение
+            Assert.AreEqual(categoryToSelect, result);
+        }
+
+        [TestMethod]
+        public void Generate_Category_Specific_Game_Count()
+        {
+            // Организация (arrange)
+            Mock<ISportProductRepository> mock = new Mock<ISportProductRepository>();
+            mock.Setup(m => m.Products).Returns(new List<Product>
+            {
+                new Product { Id = 1, Name = "Product1", Category="Cat1"},
+                new Product { Id = 2, Name = "Product2", Category="Cat2"},
+                new Product { Id = 3, Name = "Product3", Category="Cat1"},
+                new Product { Id = 4, Name = "Product4", Category="Cat2"},
+                new Product { Id = 5, Name = "Product5", Category="Cat3"}
+            });
+            SportProductController controller = new SportProductController(mock.Object);
+            controller.pageSize = 3;
+
+            // Действие - тестирование счетчиков товаров для различных категорий
+            int res1 = ((ProductsListViewModel)controller.List("Cat1").Model).PagingInfo.TotalItems;
+            int res2 = ((ProductsListViewModel)controller.List("Cat2").Model).PagingInfo.TotalItems;
+            int res3 = ((ProductsListViewModel)controller.List("Cat3").Model).PagingInfo.TotalItems;
+            int resAll = ((ProductsListViewModel)controller.List(null).Model).PagingInfo.TotalItems;
+
+            // Утверждение
+            Assert.AreEqual(res1, 2);
+            Assert.AreEqual(res2, 2);
+            Assert.AreEqual(res3, 1);
+            Assert.AreEqual(resAll, 5);
+        }
+
+
     }
 }
