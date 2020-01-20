@@ -126,5 +126,31 @@ namespace SportGoods.UnitTests
             Assert.IsTrue(result[0].Name == "Product2" && result[0].Category == "Cat2");
             Assert.IsTrue(result[1].Name == "Product4" && result[1].Category == "Cat2");
         }
+
+        [TestMethod]
+        public void Can_Create_Categories()
+        {
+            // Организация - создание имитированного хранилища
+            Mock<ISportProductRepository> mock = new Mock<ISportProductRepository>();
+            mock.Setup(m => m.Products).Returns(new List<Product>
+            {
+                new Product { Id = 1, Name = "Product1", Category="Footwear"},
+                new Product { Id = 2, Name = "Product2", Category="Apparel"},
+                new Product { Id = 3, Name = "Product3", Category="Accessories"},
+                new Product { Id = 4, Name = "Product4", Category="Apparel"},
+            });
+
+            // Организация - создание контроллера
+            NavController target = new NavController(mock.Object);
+
+            // Действие - получение набора категорий
+            List<string> results = ((IEnumerable<string>)target.Menu().Model).ToList();
+
+            // Утверждение
+            Assert.AreEqual(results.Count(), 3);
+            Assert.AreEqual(results[0], "Accessories");
+            Assert.AreEqual(results[1], "Apparel");
+            Assert.AreEqual(results[2], "Footwear");
+        }
     }
 }

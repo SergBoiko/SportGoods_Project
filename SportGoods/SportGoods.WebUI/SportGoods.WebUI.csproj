@@ -220,6 +220,7 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\SportProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -258,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Nav\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SportGoods.Domain\SportGoods.Domain.csproj">
