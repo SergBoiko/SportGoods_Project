@@ -12,10 +12,39 @@ namespace SportGoods.WebUI.Controllers
     public class CartController : Controller
     {
         private ISportProductRepository repository;
-        public CartController(ISportProductRepository repo)
+        private IOrderProcessor orderProcessor;
+
+        public CartController(ISportProductRepository repo, IOrderProcessor processor)
         {
             repository = repo;
+            orderProcessor = processor;
         }
+
+        public ViewResult Checkout()
+        {
+            return View(new ShippingDetails());
+        }
+
+        [HttpPost]
+        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
+        {
+            if (cart.Lines.Count() == 0)
+            {
+                ModelState.AddModelError("", "Sorry, but your shopping cart is empty!");
+            }
+
+            if (ModelState.IsValid)
+            {
+                orderProcessor.ProcessOrder(cart, shippingDetails);
+                cart.Clear();
+                return View("Completed");
+            }
+            else
+            {
+                return View(shippingDetails);
+            }
+        }
+
         public ViewResult Index(Cart cart, string returnUrl)
         {
             return View(new CartIndexViewModel
@@ -52,11 +81,6 @@ namespace SportGoods.WebUI.Controllers
         public PartialViewResult Summary(Cart cart)
         {
             return PartialView(cart);
-        }
-
-        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
-        {
-            return View(new ShippingDetails());
         }
 
     }
