@@ -24,7 +24,8 @@ namespace SportGoods.WebUI.Controllers
                 .Select(product => product.Category)
                 .Distinct()
                 .OrderBy(x => x);
-            return PartialView(categories);
+            
+            return PartialView("FlexMenu", categories);
         }
     }
 }
