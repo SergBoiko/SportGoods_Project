@@ -1,0 +1,42 @@
+﻿@model SportGoods.Domain.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "SportGoods: order form";
+}
+
+<h2>Checkout now</h2>
+<p>Enter your contact details, please. We will immediately send your goods!</p>
+
+
+@using (Html.BeginForm())
+{
+    <h3>Information</h3>
+    <div class="form-group">
+        <label>Your name</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+
+    <h3>Delivery address</h3>
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
+        {
+            <div class="form-group">
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+            </div>
+        }
+    }
+
+    <h3>Options</h3>
+    <div class="checkbox">
+        <label>
+            @Html.EditorFor(x => x.GiftWrap)
+            Do you want to use gift wrapping?
+        </label>
+    </div>
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Process order" />
+    </div>
+}
