@@ -7,6 +7,8 @@ using Ninject;
 using SportGoods.Domain.Abstract;
 using SportGoods.Domain.Concrete;
 using SportGoods.Domain.Entities;
+using SportGoods.WebUI.Infrastructure.Abstract;
+using SportGoods.WebUI.Infrastructure.Concrete;
 
 namespace SportGoods.WebUI.Infrastructure
 {
@@ -42,6 +44,8 @@ namespace SportGoods.WebUI.Infrastructure
 
             kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
                 .WithConstructorArgument("settings", emailSettings);
+
+            kernel.Bind<IAuthProvider>().To<FormAuthProvider>();
         }
     }
 }
