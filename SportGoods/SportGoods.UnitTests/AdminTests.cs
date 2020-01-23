@@ -140,5 +140,33 @@ namespace SportGoods.UnitTests
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
 
+        [TestMethod]
+        public void Can_Delete_Valid_Games()
+        {
+            // Организация - создание объекта Product
+            Product product = new Product { Id = 2, Name = "Product2" };
+
+            // Организация - создание имитированного хранилища данных
+            Mock<ISportProductRepository> mock = new Mock<ISportProductRepository>();
+            mock.Setup(m => m.Products).Returns(new List<Product>
+            {
+                new Product { Id = 1, Name = "Product1"},
+                new Product { Id = 2, Name = "Product2"},
+                new Product { Id = 3, Name = "Product3"},
+                new Product { Id = 4, Name = "Product4"},
+                new Product { Id = 5, Name = "Product5"}
+            });
+
+            // Организация - создание контроллера
+            AdminController controller = new AdminController(mock.Object);
+
+            // Действие - удаление продукта
+            controller.Delete(product.Id);
+
+            // Утверждение - проверка того, что метод удаления в хранилище
+            // вызывается для корректного объекта Product
+            mock.Verify(m => m.DeleteProduct(product.Id));
+        }
+
     }
 }

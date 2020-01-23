@@ -43,5 +43,22 @@ namespace SportGoods.WebUI.Controllers
                 return View(product);
             }
         }
+        public ViewResult Create()
+        {
+            return View("Edit", new Product());
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            Product deletedProduct = repository.DeleteProduct(id);
+            if (deletedProduct != null)
+            {
+                TempData["message"] = string.Format("Product \"{0}\" has been deleted",
+                    deletedProduct.Name);
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

@@ -34,5 +34,16 @@ namespace SportGoods.Domain.Concrete
             }
             context.SaveChanges();
         }
+
+        public Product DeleteProduct(int id)
+        {
+            Product dbEntry = context.Products.Find(id);
+            if (dbEntry != null)
+            {
+                context.Products.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
     }
 }
