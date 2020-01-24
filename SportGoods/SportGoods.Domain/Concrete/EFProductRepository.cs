@@ -24,12 +24,15 @@ namespace SportGoods.Domain.Concrete
             else
             {
                 Product dbEntry = context.Products.Find(product.Id);
+
                 if (dbEntry != null)
                 {
                     dbEntry.Name = product.Name;
                     dbEntry.Description = product.Description;
                     dbEntry.Price = product.Price;
                     dbEntry.Category = product.Category;
+                    dbEntry.ImageData = product.ImageData;
+                    dbEntry.ImageMimeType = product.ImageMimeType;
                 }
             }
             context.SaveChanges();

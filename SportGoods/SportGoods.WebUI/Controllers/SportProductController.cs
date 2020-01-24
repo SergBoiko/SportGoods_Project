@@ -1,4 +1,5 @@
 ﻿using SportGoods.Domain.Abstract;
+using SportGoods.Domain.Entities;
 using SportGoods.WebUI.Models;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,22 @@ namespace SportGoods.WebUI.Controllers
             };
             return View(model);
         }
+
+        public FileContentResult GetImage(int id)
+        {
+            Product product = repository.Products
+                .FirstOrDefault(g => g.Id == id);
+
+            if (product != null)
+            {
+                return File(product.ImageData, product.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }
 
