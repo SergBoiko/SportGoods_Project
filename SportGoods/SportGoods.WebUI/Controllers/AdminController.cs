@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace SportGoods.WebUI.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "Admin")] 
     public class AdminController : Controller
     {
         ISportProductRepository repository;

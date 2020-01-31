@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -14,6 +15,7 @@
         <div data-theme="a" data-role="header" data-position="fixed">
             <h3>SportGoods</h3>
             @Html.Action("Menu", "Nav")
+            @Html.Partial("_LoginPartial")
         </div>
         <div data-role="content">
             <ul data-role="listview" data-divider-theme="b" data-inset="false">
@@ -21,5 +23,8 @@
             </ul>
         </div>
     </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

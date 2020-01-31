@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SportGoods.WebUI.Controllers
 {
+    [Authorize]
     public class SportProductController : Controller
     {
         private ISportProductRepository repository;
