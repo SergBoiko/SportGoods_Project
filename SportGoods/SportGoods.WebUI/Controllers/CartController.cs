@@ -1,4 +1,5 @@
-﻿using SportGoods.Domain.Abstract;
+﻿using Microsoft.AspNet.Identity;
+using SportGoods.Domain.Abstract;
 using SportGoods.Domain.Entities;
 using SportGoods.WebUI.Models;
 using System;
@@ -11,12 +12,14 @@ namespace SportGoods.WebUI.Controllers
 {
     public class CartController : Controller
     {
-        private ISportProductRepository repository;
+        private ISportProductRepository productRepository;
         private IOrderProcessor orderProcessor;
+        private IOrderRepository orderRepository;
 
-        public CartController(ISportProductRepository repo, IOrderProcessor processor)
+        public CartController(ISportProductRepository productRepository, IOrderRepository orderRepository, IOrderProcessor processor)
         {
-            repository = repo;
+            this.productRepository = productRepository;
+            this.orderRepository = orderRepository;
             orderProcessor = processor;
         }
 
@@ -36,6 +39,16 @@ namespace SportGoods.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 orderProcessor.ProcessOrder(cart, shippingDetails);
+                foreach(var cartLine in cart.Lines)
+                {
+                    for (int i = 0; i < cartLine.Quantity; i++)
+                    {
+                        orderRepository.SaveOrder(cartLine.Product, User.Identity.GetUserId());
+                    }
+                    
+                }
+                
+
                 cart.Clear();
                 return View("Completed");
             }
@@ -56,7 +69,7 @@ namespace SportGoods.WebUI.Controllers
 
         public RedirectToRouteResult AddToCart(Cart cart, int Id, string returnUrl)
         {
-            Product product = repository.Products
+            Product product = productRepository.Products
                 .FirstOrDefault(g => g.Id == Id);
 
             if (product != null)
@@ -68,7 +81,7 @@ namespace SportGoods.WebUI.Controllers
 
         public RedirectToRouteResult RemoveFromCart(Cart cart, int Id, string returnUrl)
         {
-            Product product = repository.Products
+            Product product = productRepository.Products
                 .FirstOrDefault(g => g.Id == Id);
 
             if (product != null)

@@ -100,13 +100,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IOrderProcessor.cs" />
+    <Compile Include="Abstract\IOrderRepository.cs" />
     <Compile Include="Abstract\ISportProductRepository.cs" />
     <Compile Include="Concrete\CustomSignInManager.cs" />
     <Compile Include="Concrete\CustomUserManager.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
+    <Compile Include="Concrete\EFOrderRepository.cs" />
     <Compile Include="Concrete\EFProductRepository.cs" />
     <Compile Include="Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Entities\Cart.cs" />
+    <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\ShippingDetails.cs" />
@@ -122,6 +125,10 @@
     <Compile Include="Migrations\202001311043292_AddedUserIdentity.cs" />
     <Compile Include="Migrations\202001311043292_AddedUserIdentity.designer.cs">
       <DependentUpon>202001311043292_AddedUserIdentity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002031011383_AddedOrderTable.cs" />
+    <Compile Include="Migrations\202002031011383_AddedOrderTable.designer.cs">
+      <DependentUpon>202002031011383_AddedOrderTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001311043292_AddedUserIdentity.resx">
       <DependentUpon>202001311043292_AddedUserIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002031011383_AddedOrderTable.resx">
+      <DependentUpon>202002031011383_AddedOrderTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

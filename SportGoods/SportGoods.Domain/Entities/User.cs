@@ -11,6 +11,11 @@ namespace SportGoods.Domain.Entities
 {
     public class User : IdentityUser
     {
+        public User()
+        {
+            Orders = new List<Order>();
+        }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -18,5 +23,7 @@ namespace SportGoods.Domain.Entities
             // Add custom user claims here
             return userIdentity;
         }
+
+        public virtual List<Order> Orders { get; set; }
     }
 }

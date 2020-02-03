@@ -10,6 +10,11 @@ namespace SportGoods.Domain.Entities
 {
     public class Product
     {
+        public Product()
+        {
+            Orders = new List<Order>();
+        }
+
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
 
@@ -33,5 +38,7 @@ namespace SportGoods.Domain.Entities
 
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
+
+        public virtual List<Order> Orders { get; set; }
     }
 }

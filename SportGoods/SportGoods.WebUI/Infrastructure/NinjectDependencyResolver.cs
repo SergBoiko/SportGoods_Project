@@ -35,6 +35,7 @@ namespace SportGoods.WebUI.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<ISportProductRepository>().To<EFProductRepository>();
+            kernel.Bind<IOrderRepository>().To<EFOrderRepository>();
 
             EmailSettings emailSettings = new EmailSettings
             {
