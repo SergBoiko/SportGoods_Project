@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using log4net;
+using Microsoft.AspNet.Identity;
 using SportGoods.Domain.Abstract;
 using SportGoods.Domain.Entities;
 using SportGoods.WebUI.Models;
@@ -15,12 +16,15 @@ namespace SportGoods.WebUI.Controllers
         private ISportProductRepository productRepository;
         private IOrderProcessor orderProcessor;
         private IOrderRepository orderRepository;
+        private ILog log;
 
+        
         public CartController(ISportProductRepository productRepository, IOrderRepository orderRepository, IOrderProcessor processor)
         {
             this.productRepository = productRepository;
             this.orderRepository = orderRepository;
             orderProcessor = processor;
+            log = LogManager.GetLogger(typeof(CartController));
         }
 
         public ViewResult Checkout()
@@ -43,7 +47,16 @@ namespace SportGoods.WebUI.Controllers
                 {
                     for (int i = 0; i < cartLine.Quantity; i++)
                     {
-                        orderRepository.SaveOrder(cartLine.Product, User.Identity.GetUserId());
+                        try
+                        {
+                            orderRepository.SaveOrder(cartLine.Product, User.Identity.GetUserId());
+                            log.Info($"New order has been created for user with Id {User.Identity.GetUserId()} for product with Id {cartLine.Product.Id}");
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error($"Exception occured while saving order. Exception details: {ex.Message}");
+                        }
+                        
                     }
                     
                 }
